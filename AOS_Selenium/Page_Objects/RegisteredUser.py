@@ -1,0 +1,42 @@
+from AOS_Selenium.Page_Objects.Page import Page
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from time import sleep
+
+
+class RegisteredUser(Page):
+    def __init__(self, driver):
+        super().__init__(driver)
+        self.driver = driver
+
+
+    def SeeMyorders(self):
+        """Click on 'My Orders' and move to 'My Orders Page'"""
+        self.UserIconClick()
+        WebDriverWait(self.driver, 20).until(EC.element_to_be_clickable
+                                             ((By.CSS_SELECTOR,
+                                               "#loginMiniTitle > label[translate='My_Orders']")))
+        self.driver.find_element_by_css_selector("#loginMiniTitle > label[translate='My_Orders']").click()
+
+    def GetOrdersNum(self):
+        """Return list of order number"""
+        self.SeeMyorders()
+        WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located \
+                                                 ((By.CSS_SELECTOR, ".cover > table > tbody")))
+        orders =[]
+        table = self.driver.find_element_by_css_selector(".cover > table > tbody")
+        rows = table.find_elements_by_css_selector("tr.ng-scope ")
+        for row in rows:
+            cells = row.find_elements_by_tag_name("td")
+            order_num = cells[0].find_element_by_class_name("ng-binding").text
+            orders.append(order_num)
+        return orders
+
+    def SignOut(self):
+        """LogOut From account"""
+        # sleep(2)
+        self.UserIconClick()
+        WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable
+                                             ((By.CSS_SELECTOR ,"label[ng-click='signOut($event)']")))
+        self.driver.find_element_by_css_selector("label[ng-click='signOut($event)']").click()
