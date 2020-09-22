@@ -6,6 +6,7 @@ from time import sleep
 
 
 class RegisteredUser(Page):
+    """This class holds headers page functions that unique for registered user"""
     def __init__(self, driver):
         super().__init__(driver)
         self.driver = driver

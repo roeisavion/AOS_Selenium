@@ -4,6 +4,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 class GuestUser(Page):
+    """This class holds headers page functions that unique for 'Guest' user"""
     def __init__(self, driver):
         super().__init__(driver)
         self.driver=driver
