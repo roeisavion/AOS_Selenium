@@ -1,5 +1,5 @@
 from selenium import webdriver
-from AOS_Selenium.Page_Objects.Main_AOS import MainPage
+from AOS_Selenium.Page_Objects.MainPage import MainPage
 from AOS_Selenium.Page_Objects.CategoryPage import CategoryPage
 from AOS_Selenium.Page_Objects.ProductPage import ProductPage
 from unittest import TestCase
@@ -13,7 +13,6 @@ class TestQuantity(TestCase):
         self.driver.get("https://www.advantageonlineshopping.com/#/")
         self.driver.implicitly_wait(10)
         self.driver.maximize_window()
-
         """#1 : SetUp Objects"""
         self.AOS = MainPage(self.driver)
         self.speakers = CategoryPage(self.driver)
@@ -24,29 +23,28 @@ class TestQuantity(TestCase):
         self.product3 = ProductPage(self.driver)
 
         """#2: Add Product 1 to Cart"""
-        self.AOS.ClickCategory("Speakers")
-        self.speakers.ClickProduct(1)
-        self.product1.Add_Product_To_Cart(2)
-        self.product1_details = self.product1.GetProductDetails()
-        self.product1.BackToMainPage()
+        self.AOS.click_category("Speakers")
+        self.speakers.click_product(1)
+        self.product1.add_product_to_cart(2)
+        self.product1_details = self.product1.get_product_details()
+        self.product1.back_to_main_page()
 
         """#3: Add Product 2 to Cart"""
-        self.AOS.ClickCategory("Laptops")
-        self.laptops.ClickProduct(1)
-        self.product2.Add_Product_To_Cart(3)
-        self.product2_details = self.product2.GetProductDetails()
-        self.product2.BackToMainPage()
-
+        self.AOS.click_category("Laptops")
+        self.laptops.click_product(1)
+        self.product2.add_product_to_cart(3)
+        self.product2_details = self.product2.get_product_details()
+        self.product2.back_to_main_page()
 
         """#4: Add Product 3 to Cart"""
-        self.AOS.ClickCategory("Tablets")
-        self.tablets.ClickProduct(1)
-        self.product3.Add_Product_To_Cart(5)
-        self.product3_details = self.product3.GetProductDetails()
+        self.AOS.click_category("Tablets")
+        self.tablets.click_product(1)
+        self.product3.add_product_to_cart(5)
+        self.product3_details = self.product3.get_product_details()
 
     def tearDown(self):
         print("TearDown")
 
     def test_find_title(self):
         self.driver.back()
-        self.assertTrue(self.tablets.FindTitle()=="TABLETS")
+        self.assertTrue(self.tablets.find_title() == "TABLETS")

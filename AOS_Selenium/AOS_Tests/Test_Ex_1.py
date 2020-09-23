@@ -1,5 +1,5 @@
 from selenium import webdriver
-from AOS_Selenium.Page_Objects.Main_AOS import MainPage
+from AOS_Selenium.Page_Objects.MainPage import MainPage
 from AOS_Selenium.Page_Objects.CategoryPage import CategoryPage
 from AOS_Selenium.Page_Objects.ProductPage import ProductPage
 from unittest import TestCase
@@ -24,25 +24,25 @@ class TestQuantity(TestCase):
         self.product3 = ProductPage(self.driver)
 
         """#2: Add Product 1 to Cart"""
-        self.AOS.ClickCategory("Speakers")
-        self.speakers.ClickProduct(1)
-        self.product1.Add_Product_To_Cart(2)
-        self.product1_details = self.product1.GetProductDetails()
-        self.product1.BackToMainPage()
+        self.AOS.click_category("Speakers")
+        self.speakers.click_product(1)
+        self.product1.add_product_to_cart(2)
+        self.product1_details = self.product1.get_product_details()
+        self.product1.back_to_main_page()
 
         """#3: Add Product 2 to Cart"""
-        self.AOS.ClickCategory("Laptops")
-        self.laptops.ClickProduct(1)
-        self.product2.Add_Product_To_Cart(3)
-        self.product2_details = self.product2.GetProductDetails()
-        self.product2.BackToMainPage()
+        self.AOS.click_category("Laptops")
+        self.laptops.click_product(1)
+        self.product2.add_product_to_cart(3)
+        self.product2_details = self.product2.get_product_details()
+        self.product2.back_to_main_page()
 
 
         """#4: Add Product 3 to Cart"""
-        self.AOS.ClickCategory("Tablets")
-        self.tablets.ClickProduct(1)
-        self.product3.Add_Product_To_Cart(5)
-        self.product3_details = self.product3.GetProductDetails()
+        self.AOS.click_category("Tablets")
+        self.tablets.click_product(1)
+        self.product3.add_product_to_cart(5)
+        self.product3_details = self.product3.get_product_details()
 
 
     def tearDown(self):
@@ -50,11 +50,11 @@ class TestQuantity(TestCase):
 
     def test_set_quantity(self):
         """This test will check if the quantity of cart items is correct"""
-        Cart_Quantity = self.product1.CartTotalQuantity()
+        cart_quantity = self.product1.cart_total_quantity()
 
         """Sum of products quantities"""
-        Sum_Products = self.product1.GetProductQuantityFromCart(0) + self.product2.GetProductQuantityFromCart(1)+ self.product3.GetProductQuantityFromCart(2)
+        sum_products = self.product1.get_product_quantity_from_cart(0) + self.product2.get_product_quantity_from_cart(1)+ self.product3.get_product_quantity_from_cart(2)
 
         """Check if sum of products quantities are equal to Cart Quantity"""
-        self.assertEqual(Cart_Quantity, Sum_Products)
-        print(Cart_Quantity, Sum_Products)
+        self.assertEqual(cart_quantity, sum_products)
+        print(cart_quantity, sum_products)
