@@ -12,9 +12,9 @@ class RegisteredUser(Page):
         self.driver = driver
 
 
-    def SeeMyorders(self):
+    def see_my_orders(self):
         """Click on 'My Orders' and move to 'My Orders Page'"""
-        self.UserIconClick()
+        self.user_icon_click()
         WebDriverWait(self.driver, 20).until(EC.element_to_be_clickable
                                              ((By.CSS_SELECTOR,
                                                "#loginMiniTitle > label[translate='My_Orders']")))
@@ -22,7 +22,7 @@ class RegisteredUser(Page):
 
     def GetOrdersNum(self):
         """Return list of order number"""
-        self.SeeMyorders()
+        self.see_my_orders()
         WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located \
                                                  ((By.CSS_SELECTOR, ".cover > table > tbody")))
         orders =[]
@@ -37,7 +37,7 @@ class RegisteredUser(Page):
     def SignOut(self):
         """LogOut From account"""
         # sleep(2)
-        self.UserIconClick()
+        self.user_icon_click()
         WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable
                                              ((By.CSS_SELECTOR ,"label[ng-click='signOut($event)']")))
         self.driver.find_element_by_css_selector("label[ng-click='signOut($event)']").click()

@@ -9,23 +9,20 @@ class CategoryPage(Page):
         super().__init__(driver)
         self.driver = driver
 
-    def ProductInList(self,number_in_page):
-        WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.CSS_SELECTOR,f"div.cell>ul>li.ng-scope:nth-child({number_in_page})")))
+    def product_in_list(self, number_in_page):
+        """Find products element"""
+        WebDriverWait(self.driver, 20).until(EC.presence_of_element_located \
+                                                 ((By.CSS_SELECTOR,
+                                                   f"div.cell>ul>li.ng-scope:nth-child({number_in_page})")))
         return self.driver.find_element_by_css_selector(f"div.cell>ul>li.ng-scope:nth-child({number_in_page})")
 
-    def ClickProduct(self,number_in_page):
+    def click_product(self, number_in_page):
         """Click on product"""
-        self.ProductInList(number_in_page).click()
+        self.product_in_list(number_in_page).click()
 
-    def FindTitle(self):
-        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located\
+    def find_title(self):
+        """Return the title of category page"""
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located \
                                                  ((By.CLASS_NAME, "categoryTitle")))
         title = self.driver.find_element_by_class_name("categoryTitle")
         return title.text
-
-
-
-
-
-
-

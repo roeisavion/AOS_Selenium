@@ -9,13 +9,13 @@ class GuestUser(Page):
         super().__init__(driver)
         self.driver=driver
 
-    def FindUsername(self):
+    def find_username(self):
         """Find UserName element"""
         WebDriverWait(self.driver, 10).until(EC.presence_of_element_located
                                              ((By.NAME, "username")))
         return self.driver.find_element_by_name("username")
 
-    def FindPassWord(self):
+    def find_password(self):
         """Find PassWord element"""
         return self.driver.find_element_by_name("password")
 
@@ -23,8 +23,8 @@ class GuestUser(Page):
         """Account login"""
         WebDriverWait(self.driver, 10).until(EC.invisibility_of_element
                                              ((By.CSS_SELECTOR, ".loader:nth-child(1)")))
-        self.UserIconClick()
-        self.FindUsername().send_keys(username)
-        self.FindPassWord().send_keys(password)
+        self.user_icon_click()
+        self.find_username().send_keys(username)
+        self.find_password().send_keys(password)
         self.driver.find_element_by_id("sign_in_btnundefined").click()
 

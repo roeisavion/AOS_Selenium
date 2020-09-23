@@ -10,30 +10,29 @@ class ProductPage(Page):
         super().__init__(driver)
         self.driver = driver
 
-
 # Product Page Functions
-    def Set_Quantity(self, quantity):
+    def set_quantity(self, quantity):
         """Set quantity of product"""
         self.driver.find_element_by_css_selector(f"input[numbers-only='""']").click()
         self.driver.find_element_by_css_selector("input[numbers-only='""']").send_keys(str(quantity))
 
-    def Click_Add_To_Cart(self):
+    def click_add_to_cart(self):
         """Click 'Add To Cart' button"""
         WebDriverWait(self.driver, 10).until(EC.presence_of_element_located \
                                                  ((By.CSS_SELECTOR, "button[translate='ADD_TO_CART']")))
         self.driver.find_element_by_css_selector("button[translate='ADD_TO_CART']").click()
 
-    def Add_Product_To_Cart(self, quantity):
+    def add_product_to_cart(self, quantity):
         """Adding Product to cart"""
-        self.Set_Quantity(quantity)
-        self.Click_Add_To_Cart()
+        self.set_quantity(quantity)
+        self.click_add_to_cart()
 
 # Product Details functions
-    def GetName(self):
+    def get_name(self):
         """Return product name"""
         return self.driver.find_element_by_css_selector("h1[class='roboto-regular screen768 ng-binding']").text
 
-    def GetPrice(self):
+    def get_price(self):
         """Return product price"""
         price = self.driver.find_element_by_xpath(
             "//div[@id='Description']/h2[@class='roboto-thin screen768 ng-binding']").text
@@ -42,12 +41,12 @@ class ProductPage(Page):
             return price
         return price
 
-    def GetQuantity(self):
+    def get_quantity(self):
         """Returns the quantity I set on a product page"""
         Quantity = self.driver.find_element_by_css_selector("input[numbers-only='""']").get_attribute("value")
         return Quantity
 
-    def GetSelectedColor(self):
+    def get_selected_color(self):
         """Returns the color I set on a product page"""
         try:
             color = self.driver.find_element_by_css_selector("span#rabbit.colorSelected")
@@ -55,14 +54,14 @@ class ProductPage(Page):
             color = self.driver.find_element_by_css_selector("span#bunny.colorSelected")
         return color.get_attribute("title")
 
-    def GetProductDetails(self):
+    def get_product_details(self):
         """Returns the product details I selected, the color, and the quantity"""
-        name = self.GetName()
-        color = self.GetSelectedColor()
-        QTY = self.GetQuantity()
-        price = self.GetPrice()
+        name = self.get_name()
+        color = self.get_selected_color()
+        qty = self.get_quantity()
+        price = self.get_price()
         for char in price:
-            if char==',':
-                price=price.replace(char,'')
-        ProductDetails = f'Name= {name} ,Color= {color},Quantity= {int(QTY)},Price= {(float(price)) * (int(QTY))}'
+            if char == ',':
+                price = price.replace(char, '')
+        ProductDetails = f'Name= {name} ,Color= {color},Quantity= {int(qty)},Price= {(float(price)) * (int(qty))}'
         return ProductDetails
