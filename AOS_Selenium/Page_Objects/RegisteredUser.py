@@ -2,7 +2,6 @@ from AOS_Selenium.Page_Objects.Page import Page
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from time import sleep
 
 
 class RegisteredUser(Page):
@@ -36,7 +35,6 @@ class RegisteredUser(Page):
 
     def sign_out(self):
         """LogOut From account"""
-        # sleep(2)
         self.user_icon_click()
         WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable
                                              ((By.CSS_SELECTOR, "label[ng-click='signOut($event)']")))

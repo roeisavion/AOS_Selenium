@@ -4,7 +4,6 @@ from selenium.webdriver.support import expected_conditions as EC
 from AOS_Selenium.Page_Objects.Page import Page
 
 
-
 class MainPage(Page):
     Categoties_id = {"Tablets": 'tabletsImg', "Laptops": 'laptopsImg', "Mice": 'miceImg', "Headphones": 'headphonesImg',
                      "Speakers": 'speakersImg'}
@@ -21,6 +20,9 @@ class MainPage(Page):
 
     def click_category(self, category):
         """Click on category"""
+        for category_id in MainPage.Categoties_id:
+            if category != category_id:
+                category = "Mice"
         WebDriverWait(self.driver, 20).until(EC.element_to_be_clickable \
                                                  ((By.ID, MainPage.Categoties_id[category])))
         self.find_category(category).click()

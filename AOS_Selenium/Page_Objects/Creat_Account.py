@@ -57,8 +57,8 @@ class CreateAccount(Page):
 
     def find_check_box(self):
         element = (self.driver.find_element_by_name("i_agree"))
-        actionChains = ActionChains(self.driver)
-        actionChains.move_to_element(element).perform()
+        action_chains = ActionChains(self.driver)
+        action_chains.move_to_element(element).perform()
         return element
 
     def find_register_button(self):

@@ -5,6 +5,7 @@ from AOS_Selenium.Page_Objects.ProductPage import ProductPage
 from AOS_Selenium.Page_Objects.GuestUser import GuestUser
 from AOS_Selenium.Page_Objects.RegisteredUser import RegisteredUser
 from unittest import TestCase
+from time import sleep
 
 
 class TestQA(TestCase):
@@ -167,10 +168,12 @@ class TestQA(TestCase):
 
         """Check login"""
         self.guest.sign_in()
+        sleep(1)
         self.assertTrue(self.guest.account_in_out() == 'The account signed in')
 
         """Check logout"""
         self.registered.sign_out()
+        sleep(1)
         self.assertTrue(self.registered.account_in_out() == 'The account signed out')
         self.driver.quit()
 

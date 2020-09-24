@@ -24,6 +24,8 @@ class ProductPage(Page):
 
     def add_product_to_cart(self, quantity):
         """Adding Product to cart"""
+        if quantity < 1 or quantity > 10 or type(quantity) != int:
+            quantity = 1
         self.set_quantity(quantity)
         self.click_add_to_cart()
 
