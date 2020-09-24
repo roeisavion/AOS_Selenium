@@ -2,7 +2,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from AOS_Selenium.Page_Objects.Page import Page
-from time import sleep
+
 
 
 class MainPage(Page):
@@ -24,3 +24,11 @@ class MainPage(Page):
         WebDriverWait(self.driver, 20).until(EC.element_to_be_clickable \
                                                  ((By.ID, MainPage.Categoties_id[category])))
         self.find_category(category).click()
+
+    def location(self):
+        """This function will help us to check if we are in main page"""
+        element = self.driver.find_element_by_css_selector("#special_offer_items>h3")
+        if element.is_displayed():
+            return "MainPage"
+        else:
+            return "Not in MainPage"

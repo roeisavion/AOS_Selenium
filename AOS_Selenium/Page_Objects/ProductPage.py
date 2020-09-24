@@ -43,8 +43,8 @@ class ProductPage(Page):
 
     def get_quantity(self):
         """Returns the quantity I set on a product page"""
-        Quantity = self.driver.find_element_by_css_selector("input[numbers-only='""']").get_attribute("value")
-        return Quantity
+        quantity = self.driver.find_element_by_css_selector("input[numbers-only='""']").get_attribute("value")
+        return quantity
 
     def get_selected_color(self):
         """Returns the color I set on a product page"""
@@ -63,5 +63,5 @@ class ProductPage(Page):
         for char in price:
             if char == ',':
                 price = price.replace(char, '')
-        ProductDetails = f'Name= {name} ,Color= {color},Quantity= {int(qty)},Price= {(float(price)) * (int(qty))}'
-        return ProductDetails
+        product_details = f'Name= {name} ,Color= {color},Quantity= {int(qty)},Price= {(float(price)) * (int(qty))}'
+        return product_details

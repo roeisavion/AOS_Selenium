@@ -15,7 +15,7 @@ class TestQuantity(TestCase):
         self.driver.get("https://www.advantageonlineshopping.com/#/")
         self.driver.implicitly_wait(10)
         self.driver.maximize_window()
-        """#1 : SetUp Objects"""
+        """SetUp Objects"""
         self.AOS = MainPage(self.driver)
         self.speakers = CategoryPage(self.driver)
         self.laptops = CategoryPage(self.driver)
@@ -24,43 +24,41 @@ class TestQuantity(TestCase):
         self.product2 = ProductPage(self.driver)
         self.product3 = ProductPage(self.driver)
 
-        """#2: Add Product 1 to Cart"""
-        self.AOS.click_category("Speakers")
-        self.speakers.click_product(1)
-        self.product1.add_product_to_cart(2)
-        self.product1_details = self.product1.get_product_details()
-        self.product1.back_to_main_page()
-
-        """#3: Add Product 2 to Cart"""
-        self.AOS.click_category("Laptops")
-        self.laptops.click_product(1)
-        self.product2.add_product_to_cart(3)
-        self.product2_details = self.product2.get_product_details()
-        self.product2.back_to_main_page()
-
-        """#4: Add Product 3 to Cart"""
-        self.AOS.click_category("Tablets")
-        self.tablets.click_product(1)
-        self.product3.add_product_to_cart(5)
-        self.product3_details = self.product3.get_product_details()
-
     def tearDown(self):
         print("TearDown")
 
     def test_RemoveProductFromCart(self):
         """This test will check if removed product are still in cart """
-        cart_details= self.product3.get_cart_details()
+
+        """Add Product 1 to Cart"""
+        self.AOS.click_category("Speakers")
+        self.speakers.click_product(number_in_page=5)
+        self.product1.add_product_to_cart(quantity=2)
+        self.product1_details = self.product1.get_product_details()
+        self.product1.back_to_main_page()
+
+        """Add Product 2 to Cart"""
+        self.AOS.click_category("Laptops")
+        self.laptops.click_product(number_in_page=6)
+        self.product2.add_product_to_cart(quantity=3)
+        self.product2_details = self.product2.get_product_details()
+
+        """Get products cart details"""
+        cart_details = self.product2.get_cart_details()
         print(cart_details)
 
-        product3_details = cart_details[1]
-        print(product3_details)
+        """Get product2 details from cart details """
+        product2_details = cart_details[1]
+        print(product2_details)
 
-        self.product3.remove_product_from_cart()
+        """Remove product2"""
+        self.product2.remove_product_from_cart()
 
-        cart_details1 = self.product3.get_cart_details()
-        print(cart_details1)
+        """Get products cart details after removing product2"""
+        cart_details_after_remove = self.product2.get_cart_details()
+        print(cart_details_after_remove)
+        self.assertNotIn(product2_details, cart_details_after_remove)
 
-        self.assertNotIn(product3_details,cart_details1)
 
 
 

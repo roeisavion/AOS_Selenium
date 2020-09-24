@@ -6,6 +6,7 @@ from unittest import TestCase
 from AOS_Selenium.Page_Objects.GuestUser import GuestUser
 from AOS_Selenium.Page_Objects.RegisteredUser import RegisteredUser
 
+
 class TestQuantity(TestCase):
     def setUp(self):
         print("SetUp")
@@ -14,7 +15,8 @@ class TestQuantity(TestCase):
         self.driver.get("https://www.advantageonlineshopping.com/#/")
         self.driver.implicitly_wait(10)
         self.driver.maximize_window()
-        """#1 : SetUp Objects"""
+
+        """SetUp Objects"""
         self.AOS = MainPage(self.driver)
         self.speakers = CategoryPage(self.driver)
         self.laptops = CategoryPage(self.driver)
@@ -28,20 +30,18 @@ class TestQuantity(TestCase):
     def tearDown(self):
         print("TearDown")
 
-    def test_navigate_back(self):
-        """Add tablet to Cart"""
-        self.AOS.click_category("Tablets")
-        self.tablets.click_product(number_in_page=3)
-        self.product3.add_product_to_cart(quantity=4)
+    def test_login_logout(self):
+        """This test check if account can to sign in/out"""
 
-        """check if navigate tablet page"""
-        self.driver.back()
-        self.assertTrue(self.tablets.find_title() == "TABLETS")
+        """Check login"""
+        self.guest.sign_in()
+        self.assertTrue(self.guest.account_in_out() == "The account signed in")
 
-        """check if navigate to main page"""
-        self.driver.back()
-        element = self.AOS.find_special_offer()
-        self.assertTrue("SPECIAL OFFER" == element.text)
+        """Check logout"""
+        self.registered.sign_out()
+        self.assertTrue(self.registered.account_in_out() == "The account signed out")
+
+
 
 
 

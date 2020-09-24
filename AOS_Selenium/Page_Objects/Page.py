@@ -28,8 +28,8 @@ class Page():
     def mouse_on_icon_cart(self):
         """Put mouse on 'Cart' icon"""
         cart = self.find_cart()
-        actionChains = ActionChains(self.driver)
-        actionChains.move_to_element(cart).perform()
+        action_chains = ActionChains(self.driver)
+        action_chains.move_to_element(cart).perform()
 
     def cart_click(self):
         """CLick on 'Cart' icon"""
@@ -42,18 +42,17 @@ class Page():
         WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located \
                                                  ((By.XPATH, "//label[@class='roboto-regular ng-binding']")))
         text = self.driver.find_element_by_xpath("//label[@class='roboto-regular ng-binding']").text
-        EndNumIndex = text.index(' ')
-        Quantity = text[1:EndNumIndex]
-        NumOfProd = int(Quantity)
-        return NumOfProd
+        end_num_index = text.index(' ')
+        quantity = int(text[1:end_num_index])
+        return quantity
 
-    def get_product_quantity_from_cart(self, index):
+    def get_product_quantity_from_cart(self, index=0):
         """Return specific product quantity in cart"""
         WebDriverWait(self.driver, 10).until(EC.visibility_of_all_elements_located \
                                                  ((By.XPATH, "//label[contains(text(), 'QTY')]")))
-        Quantities = self.driver.find_elements_by_xpath("//label[contains(text(), 'QTY')] ")
-        Qty_of_Prod = int(Quantities[index].text[5:])
-        return Qty_of_Prod
+        quantities = self.driver.find_elements_by_xpath("//label[contains(text(), 'QTY')] ")
+        qty_of_prod = int(quantities[index].text[5:])
+        return qty_of_prod
 
     def get_cart_details(self):
         """Return dictionary of the products and their: name, color, quantity, price"""
@@ -74,7 +73,7 @@ class Page():
             for char2 in name:
                 if char2=='.':
                     name=name.replace(char2,'')
-            products[i] = (f'Name= {name} ,Color= {color},Quantity= {int(qty[5:])},Price= {price[1:]}')
+            products[i] = f'Name= {name} ,Color= {color},Quantity= {int(qty[5:])},Price= {price[1:]}'
             i += 1
         return products
 
@@ -113,15 +112,15 @@ class Page():
         WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable
                                             ((By.CSS_SELECTOR, "#menuUser")))
         user_icon = self.driver.find_element_by_css_selector("#menuUser")
-        actionChains = ActionChains(self.driver)
-        actionChains.move_to_element(user_icon)
+        action_chains = ActionChains(self.driver)
+        action_chains.move_to_element(user_icon)
         user_icon.click()
 
     def account_in_out(self):
         """Return account is in the system or not"""
         WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located
                                              ((By.CSS_SELECTOR, "#menuUserLink>span")))
-        username= self.driver.find_element_by_css_selector("#menuUserLink>span")
+        username = self.driver.find_element_by_css_selector("#menuUserLink>span")
         if username.is_displayed():
             return "The account signed in"
         else:

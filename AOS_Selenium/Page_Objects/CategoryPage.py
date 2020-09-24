@@ -12,8 +12,7 @@ class CategoryPage(Page):
     def product_in_list(self, number_in_page):
         """Find products element"""
         WebDriverWait(self.driver, 20).until(EC.presence_of_element_located \
-                                                 ((By.CSS_SELECTOR,
-                                                   f"div.cell>ul>li.ng-scope:nth-child({number_in_page})")))
+                                                 ((By.CSS_SELECTOR, f"div.cell>ul>li.ng-scope:nth-child({number_in_page})")))
         return self.driver.find_element_by_css_selector(f"div.cell>ul>li.ng-scope:nth-child({number_in_page})")
 
     def click_product(self, number_in_page):
