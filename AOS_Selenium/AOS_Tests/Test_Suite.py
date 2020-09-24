@@ -167,10 +167,13 @@ class TestQA(TestCase):
 
         """Check login"""
         self.guest.sign_in()
+        sleep(1)
         self.assertTrue(self.guest.account_in_out() == 'The account signed in')
 
         """Check logout"""
         self.registered.sign_out()
+        sleep(1)
         self.assertTrue(self.registered.account_in_out() == 'The account signed out')
         self.driver.quit()
+
 
