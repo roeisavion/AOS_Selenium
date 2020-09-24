@@ -50,8 +50,8 @@ class Page:
         quantities = self.driver.find_elements_by_xpath("//label[contains(text(), 'QTY')] ")
         if index < 0 or type(index) != int:
             index = 0
-        elif index > len(quantities - 1):
-            index = len(quantities - 1)
+        elif index > (len(quantities) - 1):
+            index = (len(quantities) - 1)
         qty_of_prod = int(quantities[index].text[5:])
         return qty_of_prod
 

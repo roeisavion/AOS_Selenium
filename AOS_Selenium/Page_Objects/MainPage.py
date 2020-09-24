@@ -20,9 +20,8 @@ class MainPage(Page):
 
     def click_category(self, category):
         """Click on category"""
-        for category_id in MainPage.Categoties_id:
-            if category != category_id:
-                category = "Mice"
+        if category not in MainPage.Categoties_id:
+            category = "Tablets"
         WebDriverWait(self.driver, 20).until(EC.element_to_be_clickable \
                                                  ((By.ID, MainPage.Categoties_id[category])))
         self.find_category(category).click()

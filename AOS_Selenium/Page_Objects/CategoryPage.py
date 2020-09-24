@@ -12,7 +12,9 @@ class CategoryPage(Page):
     def total_products(self):
         """Return the quantity of products in category page"""
         element_total = self.driver.find_element_by_class_name("titleItemsCount")
-        total = int(element_total.text[0:1])
+        text = element_total.text
+        end_num_index = text.index(' ')
+        total = int(text[0: end_num_index])
         return total
 
     def product_in_list(self, number_in_page):
@@ -29,7 +31,7 @@ class CategoryPage(Page):
 
     def find_title(self):
         """Return the title of category page"""
-        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located \
+        WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located \
                                                  ((By.CLASS_NAME, "categoryTitle")))
         title = self.driver.find_element_by_class_name("categoryTitle")
         return title.text

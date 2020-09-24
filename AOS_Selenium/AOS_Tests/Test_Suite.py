@@ -29,6 +29,7 @@ class TestQA(TestCase):
         self.registered = RegisteredUser(self.driver)
 
     def tearDown(self):
+        self.driver.quit()
         print("TearDown")
 
     def test_set_quantity(self):  # Ex 1
@@ -67,7 +68,6 @@ class TestQA(TestCase):
         self.assertEqual(cart_quantity, sum_products)
         print(cart_quantity, sum_products)
         self.product3.back_to_main_page()
-        self.driver.quit()
 
     def test_cart_details(self):  # Ex 2
         """This test will check if the details of each product in the cart are correct"""
@@ -111,7 +111,6 @@ class TestQA(TestCase):
         print(cart_details[1])
         self.assertIn(self.product3_details, cart_details[1])
         self.product3.back_to_main_page()
-        self.driver.quit()
 
     def test_RemoveProductFromCart(self):  # Ex 3
         """This test will check if removed product are still in cart """
@@ -145,7 +144,6 @@ class TestQA(TestCase):
         print(cart_details_after_remove)
         self.assertNotIn(product2_details, cart_details_after_remove)
         self.product2.back_to_main_page()
-        self.driver.quit()
 
     def test_navigate_back(self):  # Ex 7
         """Add tablet to Cart"""
@@ -161,7 +159,6 @@ class TestQA(TestCase):
         self.driver.back()
         location = self.AOS.location()
         self.assertTrue(location == "MainPage")
-        self.driver.quit()
 
     def test_login_logout(self):  # Ex 10
         """This test check if account is able to sign in/out"""
@@ -175,5 +172,4 @@ class TestQA(TestCase):
         self.registered.sign_out()
         sleep(1)
         self.assertTrue(self.registered.account_in_out() == 'The account signed out')
-        self.driver.quit()
 
