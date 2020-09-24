@@ -119,7 +119,7 @@ class Page():
     def account_in_out(self):
         """Return account is in the system or not"""
         WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located
-                                             ((By.CSS_SELECTOR, "#menuUserLink>span")))
+                                             ((By.CSS_SELECTOR, "#menuUserLink")))
         username = self.driver.find_element_by_css_selector("#menuUserLink>span")
         if username.is_displayed():
             return "The account signed in"
