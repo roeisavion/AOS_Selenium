@@ -1,5 +1,3 @@
-from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -7,55 +5,57 @@ from selenium.webdriver import ActionChains
 from time import sleep
 
 
-
-class Page():
+class Page:
     """Class 'Page' holds simple functions for page"""
 
     def __init__(self, driver):
         self.driver = driver
 
-    def BackToMainPage(self):
+    def back_to_main_page(self):
+        """This func navigate to 'Main page', by click on main page icon"""
         self.driver.find_element_by_css_selector("a[ng-click='go_up()']").click()
 
-# Icon Cart Functions
-    def FindCart(self):
+    # Icon Cart Functions
+    def find_cart(self):
         """Find 'Cart' icon element"""
         WebDriverWait(self.driver, 10).until(EC.presence_of_element_located \
                                                  ((By.ID, "menuCart")))
         return self.driver.find_element_by_id("menuCart")
 
-    def MouseOnIconCart(self):
+    def mouse_on_icon_cart(self):
         """Put mouse on 'Cart' icon"""
-        cart = self.FindCart()
-        actionChains = ActionChains(self.driver)
-        actionChains.move_to_element(cart).perform()
+        cart = self.find_cart()
+        action_chains = ActionChains(self.driver)
+        action_chains.move_to_element(cart).perform()
 
-    def CartClick(self):
+    def cart_click(self):
         """CLick on 'Cart' icon"""
         WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable \
                                                  ((By.ID, "menuCart")))
-        self.FindCart().click()
+        self.find_cart().click()
 
-    def CartTotalQuantity(self):
+    def cart_total_quantity(self):
         """Return total of 'Cart' items"""
         WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located \
                                                  ((By.XPATH, "//label[@class='roboto-regular ng-binding']")))
         text = self.driver.find_element_by_xpath("//label[@class='roboto-regular ng-binding']").text
-        EndNumIndex = text.index(' ')
-        Quantity = text[1:EndNumIndex]
-        NumOfProd = int(Quantity)
-        return NumOfProd
+        end_num_index = text.index(' ')
+        quantity = int(text[1:end_num_index])
+        return quantity
 
-    def GetProductQuantityFromCart(self, index):
+    def get_product_quantity_from_cart(self, index=0):
         """Return specific product quantity in cart"""
         WebDriverWait(self.driver, 10).until(EC.visibility_of_all_elements_located \
                                                  ((By.XPATH, "//label[contains(text(), 'QTY')]")))
-        Quantities = self.driver.find_elements_by_xpath("//label[contains(text(), 'QTY')] ")
-        Qty_of_Prod = int(Quantities[index].text[5:])
-        return Qty_of_Prod
+        quantities = self.driver.find_elements_by_xpath("//label[contains(text(), 'QTY')] ")
+        if index < 0 or type(index) != int:
+            index = 0
+        elif index > (len(quantities) - 1):
+            index = (len(quantities) - 1)
+        qty_of_prod = int(quantities[index].text[5:])
+        return qty_of_prod
 
-
-    def GetCartDetails(self):
+    def get_cart_details(self):
         """Return dictionary of the products and their: name, color, quantity, price"""
         table = self.driver.find_element_by_tag_name('tbody')
         rows = table.find_elements_by_tag_name('tr')
@@ -65,68 +65,62 @@ class Page():
                                                  ((By.TAG_NAME, "tbody")))
         for row in rows:
             name = row.find_element_by_css_selector('td>a>h3').text
-            QTY = row.find_element_by_css_selector('td>a>label').text
+            qty = row.find_element_by_css_selector('td>a>label').text
             color = row.find_element_by_css_selector('td>a>label>span').text
             price = row.find_element_by_css_selector('td>p').text
             for char in price:
                 if char == ',':
                     price = price.replace(char, '')
             for char2 in name:
-                if char2=='.':
-                    name=name.replace(char2,'')
-            products[i] = (f'Name= {name} ,Color= {color},Quantity= {int(QTY[5:])},Price= {price[1:]}')
+                if char2 == '.':
+                    name = name.replace(char2, '')
+            products[i] = f'Name= {name} ,Color= {color},Quantity= {int(qty[5:])},Price= {price[1:]}'
             i += 1
         return products
 
-
-    def RemoveProductFromCart(self, index=0):
+    def remove_product_from_cart(self):
         """Remove one product from cart"""
         removes = self.driver.find_elements_by_css_selector('.removeProduct')
-        if index > len(removes) - 1:
-            index = len(removes) - 1
-        removes[index].click()
+        removes[0].click()
 
-# CheckOut simple functions
-    def FindCheckOut(self):
+    # CheckOut simple functions
+    def find_check_out(self):
         """Return CheckOut button element"""
         WebDriverWait(self.driver, 10).until(EC.presence_of_element_located \
                                                  ((By.ID, "checkOutPopUp")))
         return self.driver.find_element_by_id("checkOutPopUp")
 
-    def ClickCheckOut(self):
+    def click_check_out(self):
         """Clicking CheckOut button"""
-        self.FindCheckOut().click()
+        self.find_check_out().click()
 
-    def FindCartIsEmpty(self):
-        self.MouseOnIconCart()
+    def find_cart_is_empty(self):
+        self.mouse_on_icon_cart()
         WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located \
                                                  ((By.CSS_SELECTOR, "div.emptyCart")))
         return self.driver.find_element_by_css_selector("div.emptyCart").text
 
-# User simple functions
-    def UserIconClick(self):
+    # User simple functions
+    def user_icon_click(self):
         """Click on user icon"""
         sleep(2)
         WebDriverWait(self.driver, 10).until(EC.invisibility_of_element
                                              ((By.CSS_SELECTOR, ".loader:nth-child(1)")))
-        WebDriverWait(self.driver,10).until(EC.invisibility_of_element
-                                            ((By.CSS_SELECTOR, ".loader:nth-child(2)")))
+        WebDriverWait(self.driver, 10).until(EC.invisibility_of_element
+                                             ((By.CSS_SELECTOR, ".loader:nth-child(2)")))
         WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable
-                                            ((By.CSS_SELECTOR, "#menuUser")))
+                                             ((By.CSS_SELECTOR, "#menuUser")))
         user_icon = self.driver.find_element_by_css_selector("#menuUser")
-        actionChains = ActionChains(self.driver)
-        actionChains.move_to_element(user_icon)
+        action_chains = ActionChains(self.driver)
+        action_chains.move_to_element(user_icon)
         user_icon.click()
 
-
-    def Account_In_Out(self):
+    def account_in_out(self):
         """Return account is in the system or not"""
         WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located
-                                             ((By.CSS_SELECTOR, "#menuUserLink>span")))
-        username= self.driver.find_element_by_css_selector("#menuUserLink>span")
+                                             ((By.CSS_SELECTOR, "#menuUserLink")))
+        username = self.driver.find_element_by_css_selector("#menuUserLink>span")
         if username.is_displayed():
             return "The account signed in"
         else:
             return "The account signed out"
-
-
