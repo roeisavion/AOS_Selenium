@@ -200,9 +200,11 @@ class TestQA(TestCase):
 
         """check if the order is shown in "my orders"""
         order_number = self.order_payment.get_order_number()
-        orders = self.registered.get_orders_num()
-        self.assertEqual(orders[-1], order_number)
+        last_order = self.registered.get_last_order_num()
         print(order_number)
+        print(last_order)
+        self.assertTrue(last_order == order_number)
+
 
         """check if the cart is empty"""
         self.order_payment.back_to_main_page()
