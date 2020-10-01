@@ -52,7 +52,7 @@ class TestQA(TestCase):
         self.laptops.click_product(number_in_page=6)
         self.product2.add_product_to_cart(quantity=3)
 
-        """navigate to cart page"""
+        """Navigate to cart page"""
         self.product1.cart_click()
         self.assertIn(self.shopping_cart_page.check_navigation_line(), 'SHOPPING CART')
         print(self.shopping_cart_page.check_navigation_line())
