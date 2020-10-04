@@ -91,21 +91,21 @@ class TestQA(TestCase):
 
         """Get all products cart details """
         cart_details = self.product.get_cart_details()
-        print(cart_details)
+        print("cart details =",cart_details)
 
         """Product one check"""
-        print(cart_details[3])
-        print(self.product1_details)
+        print("product 1 in cart =",cart_details[3])
+        print("product 1 in product page =",self.product1_details)
         self.assertIn(self.product1_details, cart_details[3])
 
         """Product two check"""
-        print(self.product2_details)
-        print(cart_details[2])
+        print("product 2 in product page =",self.product2_details)
+        print("product 2 in cart =",cart_details[2])
         self.assertIn(self.product2_details, cart_details[2])
 
         """Product three check"""
-        print(self.product3_details)
-        print(cart_details[1])
+        print("product 3 in product page =",self.product3_details)
+        print("product 3 in cart =",cart_details[1])
         self.assertIn(self.product3_details, cart_details[1])
         self.product.back_to_main_page()
 
@@ -117,7 +117,7 @@ class TestQA(TestCase):
         self.category.click_product(number_in_page=5)
         self.product.add_product_to_cart(quantity=2)
         self.product1_details = self.product.get_product_details()
-        print(self.product1_details)
+        print("product 1 in product page =",self.product1_details)
         self.product.back_to_main_page()
 
         """Add Product 2 to Cart"""
@@ -125,22 +125,22 @@ class TestQA(TestCase):
         self.category.click_product(number_in_page=6)
         self.product.add_product_to_cart(quantity=3)
         self.product2_details = self.product.get_product_details()
-        print(self.product2_details)
+        print("product 2 in product page =",self.product2_details)
 
         """Get products cart details"""
         cart_details = self.product.get_cart_details()
-        print(cart_details)
+        print("cart details =",cart_details)
 
         """Get product2 details from cart details """
         product2_details = cart_details[1]
-        print(product2_details)
+        print("product 2 in cart =",product2_details)
 
         """Remove product2"""
         self.product.remove_product_from_cart()
 
         """Get products cart details after removing product2"""
         cart_details_after_remove = self.product.get_cart_details()
-        print(cart_details_after_remove)
+        print("cart after remove =",cart_details_after_remove)
         self.assertNotIn(product2_details, cart_details_after_remove)
         self.product.back_to_main_page()
 
