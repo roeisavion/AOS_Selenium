@@ -1,94 +1,98 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from AOS_Selenium.Page import Page
+from Page_Objects.Page import Page
+from selenium.webdriver.support.select import Select
 
-class OrderPaymentPage(Page) :
-    def __init__(self,driver):
+
+class OrderPaymentPage(Page):
+    def __init__(self, driver):
         super().__init__(driver)
-        self.driver=driver
+        self.driver = driver
 
-    def Click_Register(self):
+    def click_register(self):
         self.driver.find_element_by_id("registration_btnundefined").click()
 
-    def Enter_Login_Username(self,username):
+    def enter_login_username(self,username):
         self.driver.find_element_by_name("usernameInOrderPayment").send_keys(username)
 
-    def Enter_Login_Password(self,password):
+    def enter_login_password(self, password):
         self.driver.find_element_by_name("passwordInOrderPayment").send_keys(password)
 
-    def Click_Login(self):
+    def click_login(self):
         self.driver.find_element_by_id("login_btnundefined").click()
 
-    def Click_Next(self):
+    def login(self):
+        self.enter_login_username("maor90b8989")
+        self.enter_login_password("12345aA")
+        self.click_login()
+
+    def click_next(self):
         self.driver.find_element_by_id("next_btn").click()
 
-    def Click_Edit_shipping_details(self):
+    def click_edit_shipping_details(self):
         self.driver.find_element_by_css_selector('.ng-scope[translate="Edit_shipping_Details"]').click()
 
-    def Choose_SafePay(self):
+    def choose_safepay(self):
         # WebDriverWait(self.driver,10).until(EC.element_to_be_clickable((By.NAME,"safepay")))
         self.driver.find_element_by_name("safepay").click()
 
-    def Choose_MasterCredit(self):
+    def choose_master_credit(self):
         # WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.NAME, "MasterCredit")))
         self.driver.find_element_by_css_selector('img[alt="Master credit"]').click()
 
-    def Enter_SafePay_Username(self,username):
+    def enter_safepay_username(self,username):
         self.driver.find_element_by_name("safepay_username").send_keys(username)
 
-    def Enter_SafePay_Password(self,password):
+    def enter_safepay_password(self,password):
         self.driver.find_element_by_name("safepay_password").send_keys(password)
 
-    def Click_Pay_Now_SafePay(self):
+    def click_pay_now_safepay(self):
         self.driver.find_element_by_id("pay_now_btn_SAFEPAY").click()
 
-
-
-
-    def Enter_CardHolder_name(self,cardholdername):
+    def enter_cardholder_name(self,card_holder_name):
         # self.driver.find_element_by_name("cardholder_name").click()
-        self.driver.find_element_by_name("cardholder_name").send_keys(cardholdername)
+        self.driver.find_element_by_name("cardholder_name").send_keys(card_holder_name)
 
-    def Enter_CrditCard_number(self,CrditCard_number):
+    def enter_credit_card_number(self,credit_card_number):
         # self.driver.find_element_by_name("card_number").click()
-        self.driver.find_element_by_name("card_number").send_keys(CrditCard_number)
+        self.driver.find_element_by_name("card_number").send_keys(credit_card_number)
 
-    def Enter_CVV_number(self,CVV_number):
+    def enter_cvv_number(self,cvv_number):
         # self.driver.find_element_by_name("cvv_number").click()
-        self.driver.find_element_by_name("cvv_number").send_keys(CVV_number)
+        self.driver.find_element_by_name("cvv_number").send_keys(cvv_number)
 
-    def Click_MM(self):
+    def click_mm(self):
         self.driver.find_element_by_name("mmListbox").click()
 
-    def Choose_MM(self,mm):
-        self.driver.find_element_by_css_selector(f'.ng-pristine[name="mmListbox"]>option[label="{mm}"]').click()
+    def choose_mm(self,mm):
+        select = Select(self.driver.find_element_by_name('mmListbox'))
+        select.select_by_visible_text(mm)
 
-    def Click_YYYY(self):
+    def click_yyyy(self):
         self.driver.find_element_by_name("yyyyListbox").click()
 
-    def Choose_YYYY(self,yyyy):
-        self.driver.find_element_by_css_selector(f'.ng-pristine[name="yyyyListbox"]>option[label="{yyyy}"]').click()
+    def choose_yyyy(self,yyyy):
+        select = Select(self.driver.find_element_by_name('yyyyListbox'))
+        select.select_by_visible_text(yyyy)
 
-    def Enter_Exp_Date(self,mm,yyyy):
-        self.Click_MM()
-        self.Choose_MM(mm)
-        self.Click_YYYY()
-        self.Choose_YYYY(yyyy)
+    def enter_exp_date(self, mm, yyyy):
+        self.choose_mm(mm)
+        self.choose_yyyy(yyyy)
 
-    def Pay_Now_MasterCredit_after_details(self):
+    def pay_now_master_credit_after_details(self):
         #WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.ID, "pay_now_btn_ManualPayment")))
         self.driver.find_element_by_id("pay_now_btn_ManualPayment").click()
 
-    def Pay_Now_MasterCredit_with_saved_details(self):
+    def pay_now_master_credit_with_saved_details(self):
         self.driver.find_element_by_id("pay_now_btn_MasterCredit").click()
 
-    def Edit_MasterCredit_Details(self):
-            self.driver.find_element_by_css_selector('label[translate="Edit"]').click()
+    def edit_master_credit_details(self):
+        self.driver.find_element_by_css_selector('label[translate="Edit"]').click()
 
-    def Check_Thank_you(self):
+    def check_thank_you(self):
         WebDriverWait(self.driver, 10).until(EC.text_to_be_present_in_element((By.CSS_SELECTOR,"span[translate='Thank_you_for_buying_with_Advantage']"),'Thank you for buying with Advantage'))
         return self.driver.find_element_by_css_selector("span[translate='Thank_you_for_buying_with_Advantage']").text
 
-    def GetOrderNumber(self):
+    def get_order_number(self):
         return self.driver.find_element_by_id("orderNumberLabel").text

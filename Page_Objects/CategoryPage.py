@@ -1,7 +1,7 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from AOS_Selenium.Page_Objects.Page import Page
+from Page_Objects.Page import Page
 
 
 class CategoryPage(Page):
@@ -25,8 +25,16 @@ class CategoryPage(Page):
 
     def click_product(self, number_in_page):
         """Click on product"""
-        if number_in_page < 1 or number_in_page > self.total_products() or type(number_in_page) != int:
-            number_in_page = 1
+
+    def click_product(self, number_in_page=1):
+        """Click on product"""
+        total = self.total_products()
+        if number_in_page < 1 or number_in_page > total or type(number_in_page) != int or number_in_page is None:
+            number_in_page = randint(1, total)
+        # Check if product soldout
+        sold_out_element = self.product_in_list(number_in_page).find_element_by_css_selector("div.soulOut")
+        while sold_out_element.is_displayed():
+            number_in_page = randint(1, total)
         self.product_in_list(number_in_page).click()
 
     def find_title(self):

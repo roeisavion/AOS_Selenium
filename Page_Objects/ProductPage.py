@@ -2,13 +2,17 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import InvalidSelectorException
-from AOS_Selenium.Page_Objects.Page import Page
+from Page_Objects.Page import Page
+from selenium.webdriver.common.action_chains import ActionChains
 
 
 class ProductPage(Page):
     def __init__(self, driver):
         super().__init__(driver)
         self.driver = driver
+        self.productNames=[]
+        self.productQuantities=[]
+        self.productPrices=[]
 
 # Product Page Functions
     def set_quantity(self, quantity):
@@ -32,15 +36,16 @@ class ProductPage(Page):
 # Product Details functions
     def get_name(self):
         """Return product name"""
+        WebDriverWait(self.driver, 10).until(
+            EC.invisibility_of_element((By.CSS_SELECTOR, "ul>li>tool-tip-cart>div>table")))    #wait for cart menu to disappear
         return self.driver.find_element_by_css_selector("h1[class='roboto-regular screen768 ng-binding']").text
 
     def get_price(self):
         """Return product price"""
         price = self.driver.find_element_by_xpath(
             "//div[@id='Description']/h2[@class='roboto-thin screen768 ng-binding']").text
-        if price[0] == '$':
-            price = price[1:]
-            return price
+        price = price.replace('$','')
+        price = price.replace(',','')
         return price
 
     def get_quantity(self):
@@ -62,8 +67,16 @@ class ProductPage(Page):
         color = self.get_selected_color()
         qty = self.get_quantity()
         price = self.get_price()
-        for char in price:
-            if char == ',':
-                price = price.replace(char, '')
-        product_details = f'Name= {name} ,Color= {color},Quantity= {int(qty)},Price= {(float(price)) * (int(qty))}'
+
+        product_details = f'Name= {name}, Color= {color}, Quantity= {int(qty)}, Price= {(float(price)) * (int(qty))}'
         return product_details
+
+
+    def add_product_details_to_list(self):
+        '''saves the name, quantity and price of a product from the product page in lists '''
+        name=self.get_name()
+        self.productNames.insert(0,name)
+        quantity=self.get_quantity()
+        self.productQuantities.insert(0,quantity)
+        price=self.get_price()
+        self.productPrices.insert(0,price)

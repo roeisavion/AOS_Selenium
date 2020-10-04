@@ -1,4 +1,4 @@
-from AOS_Selenium.Page_Objects.Page import Page
+from Page_Objects.Page import Page
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -20,18 +20,12 @@ class RegisteredUser(Page):
         self.driver.find_element_by_css_selector("#loginMiniTitle > label[translate='My_Orders']").click()
 
     def get_orders_num(self):
-        """Return list of order number"""
+        """Return last order number"""
         self.see_my_orders()
-        WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located \
-                                                 ((By.CSS_SELECTOR, ".cover > table > tbody")))
-        orders = []
-        table = self.driver.find_element_by_css_selector(".cover > table > tbody")
-        rows = table.find_elements_by_css_selector("tr.ng-scope ")
-        for row in rows:
-            cells = row.find_elements_by_tag_name("td")
-            order_num = cells[0].find_element_by_class_name("ng-binding").text
-            orders.append(order_num)
-        return orders
+        WebDriverWait(self.driver, 10).until(EC.presence_of_all_elements_located \
+                                                 ((By.CSS_SELECTOR, "tr.ng-scope")))
+        orders_elements = self.driver.find_elements_by_css_selector('tr>td:nth-child(1)>label')
+        return orders_elements[-1].text
 
     def sign_out(self):
         """LogOut From account"""
