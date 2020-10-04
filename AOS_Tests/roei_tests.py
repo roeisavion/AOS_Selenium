@@ -43,12 +43,10 @@ class TestQA(TestCase):
         self.productPage.add_product_to_cart(quantity=2)
         self.productPage.back_to_main_page()
 
-
         """Add Product 2 to Cart"""
         self.AOS.click_category("Laptops")
         self.categoryPage.click_product(number_in_page=6)
         self.productPage.add_product_to_cart(quantity=3)
-
 
         """Navigate to cart page"""
         self.productPage.cart_click()
@@ -58,33 +56,33 @@ class TestQA(TestCase):
     def test5_print_cart(self):
         """This test will check if cart details are correct"""
 
-
         """Add Product 1 to Cart"""
         self.AOS.click_category("Speakers")
-        self.categoryPage.click_product(number_in_page=5)
-        self.productPage.add_product_to_cart(quantity=2)
+        self.categoryPage.click_product(number_in_page=1)
+        self.productPage.add_product_to_cart(quantity=5)
 
         self.productPage.add_product_details_to_list()
         self.productPage.back_to_main_page()
 
         """Add Product 2 to Cart"""
         self.AOS.click_category("Laptops")
-        self.categoryPage.click_product(number_in_page=6)
-        self.productPage.add_product_to_cart(quantity=3)
+        self.categoryPage.click_product(number_in_page=3)
+        self.productPage.add_product_to_cart(quantity=2)
 
         self.productPage.add_product_details_to_list()
         self.productPage.back_to_main_page()
 
         """Add Product 3 to Cart"""
         self.AOS.click_category("Tablets")
-        self.categoryPage.click_product(number_in_page=3)
-        self.productPage.add_product_to_cart(quantity=4)
+        self.categoryPage.click_product(number_in_page=5)
+        self.productPage.add_product_to_cart(quantity=8)
 
         self.productPage.add_product_details_to_list()
 
         """Navigate to cart page"""
         self.productPage.cart_click()
         self.shopping_cart_page.cart_print()
+        #self.shopping_cart_page.cart_details()
 
         '''checks details on shopping cart page match details from the ordered product page'''
         for i in range(len(self.productPage.productNames)) :
@@ -92,12 +90,13 @@ class TestQA(TestCase):
             self.assertEqual(self.productPage.productQuantities[i],self.shopping_cart_page.products_quantity[i].text)
 
             self.shopping_cart_page.products_price[i]=self.shopping_cart_page.products_price[i].text.replace(',','').replace('$','')
-            productPage_price=float(self.productPage.productPrices[i])*int(self.productPage.productQuantities[i])
+
+            '''check if total price from product page = total price from shopping cart page'''
+            productPage_price = float(self.productPage.productPrices[i]) * int(self.productPage.productQuantities[i])
             self.assertEqual(productPage_price,float(self.shopping_cart_page.products_price[i]))
 
         '''checks is the checkout price equals the sum of the prices(from the shopping cart page) in the cart'''
         self.assertEqual(self.shopping_cart_page.sum_cart_prices(), self.shopping_cart_page.get_checkout_price())
-
 
     def test6_edit_quantity(self):
         """This test will check if edit products"""
@@ -107,7 +106,6 @@ class TestQA(TestCase):
         self.categoryPage.click_product(number_in_page=5)
         self.productPage.add_product_to_cart(quantity=2)
         self.productPage.back_to_main_page()
-
 
         """Add Product 2 to Cart"""
         self.AOS.click_category("Laptops")
@@ -127,6 +125,7 @@ class TestQA(TestCase):
 
     def test8_new_user_paying_SafePay(self):
         """This test will check a payment with safepay"""
+
         """Add Product 1 to Cart"""
         self.AOS.click_category("Speakers")
         self.categoryPage.click_product(number_in_page=5)
@@ -151,7 +150,7 @@ class TestQA(TestCase):
         self.AOS.click_check_out()
         self.order_payment.click_register()
         self.create_account_page.register_account()
-        sleep(2)
+        # sleep(2)
         self.order_payment.click_next()
         self.order_payment.choose_safepay()
         self.order_payment.enter_safepay_username('abcd1234')
@@ -160,16 +159,15 @@ class TestQA(TestCase):
 
         print(self.order_payment.check_thank_you())
 
-
         """Check if the payment was successful"""
         self.assertEqual('Thank you for buying with Advantage', self.order_payment.check_thank_you())
 
         """check if the order is shown in "my orders"""
         order_number = self.order_payment.get_order_number()
         last_order = self.registered.get_orders_num()
-        print(order_number)
-        print(last_order)
-        self.assertTrue(last_order == order_number)
+        print('order number from order payment page:',order_number)
+        print('last order number from my orders:',last_order)
+        self.assertEqual(last_order, order_number)
 
         """check if the cart is empty"""
         self.order_payment.back_to_main_page()
@@ -177,22 +175,23 @@ class TestQA(TestCase):
 
     def test9_existing_user_paying_credit_card(self):
         """This test will check a payment with master credit"""
+
         """Add Product 1 to Cart"""
         self.AOS.click_category("Speakers")
-        self.categoryPage.click_product(number_in_page=5)
-        self.productPage.add_product_to_cart(quantity=2)
+        self.categoryPage.click_product(number_in_page=3)
+        self.productPage.add_product_to_cart(quantity=9)
         self.productPage.back_to_main_page()
 
         """Add Product 2 to Cart"""
         self.AOS.click_category("Laptops")
-        self.categoryPage.click_product(number_in_page=6)
+        self.categoryPage.click_product(number_in_page=1)
         self.productPage.add_product_to_cart(quantity=3)
         self.productPage.back_to_main_page()
 
         """Add Product 3 to Cart"""
         self.AOS.click_category("Tablets")
-        self.categoryPage.click_product(number_in_page=3)
-        self.productPage.add_product_to_cart(quantity=4)
+        self.categoryPage.click_product(number_in_page=2)
+        self.productPage.add_product_to_cart(quantity=1)
 
         """Navigate to cart page"""
         self.productPage.cart_click()
@@ -203,6 +202,7 @@ class TestQA(TestCase):
         self.order_payment.click_next()
         self.order_payment.choose_master_credit()
 
+        '''rgeesrg'''
         try:
             self.order_payment.enter_credit_card_number('4886567890123456')
             self.order_payment.enter_cvv_number('7744')
@@ -222,7 +222,6 @@ class TestQA(TestCase):
         print(order_number)
         print(last_order)
         self.assertTrue(last_order == order_number)
-
 
         """check if the cart is empty"""
         self.order_payment.back_to_main_page()

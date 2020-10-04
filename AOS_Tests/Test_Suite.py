@@ -6,7 +6,9 @@ from Page_Objects.GuestUser import GuestUser
 from Page_Objects.RegisteredUser import RegisteredUser
 from unittest import TestCase
 from time import sleep
-
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
 
 class TestQA(TestCase):
     def setUp(self):
@@ -164,11 +166,10 @@ class TestQA(TestCase):
 
         """Check login"""
         self.guest.sign_in()
-        sleep(1)
         self.assertTrue(self.guest.account_in_out() == 'The account signed in')
 
         """Check logout"""
         self.registered.sign_out()
-        sleep(1)
         self.assertTrue(self.registered.account_in_out() == 'The account signed out')
+
 

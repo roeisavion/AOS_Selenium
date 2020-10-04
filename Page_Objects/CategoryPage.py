@@ -2,7 +2,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from Page_Objects.Page import Page
-
+from random import randint
 
 class CategoryPage(Page):
     def __init__(self, driver):

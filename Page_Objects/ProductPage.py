@@ -71,12 +71,11 @@ class ProductPage(Page):
         product_details = f'Name= {name}, Color= {color}, Quantity= {int(qty)}, Price= {(float(price)) * (int(qty))}'
         return product_details
 
-
     def add_product_details_to_list(self):
-        '''saves the name, quantity and price of a product from the product page in lists '''
-        name=self.get_name()
+        """saves the name, quantity and price of a product from the product page in lists"""
+        name = self.get_name()
         self.productNames.insert(0,name)
-        quantity=self.get_quantity()
+        quantity = self.get_quantity()
         self.productQuantities.insert(0,quantity)
-        price=self.get_price()
-        self.productPrices.insert(0,price)
+        price = self.get_price()
+        self.productPrices.insert(0, price)
