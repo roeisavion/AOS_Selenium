@@ -57,29 +57,31 @@ class Page:
 
     def get_cart_details(self):
         """Return dictionary of the products and their: name, color, quantity, price"""
+        self.mouse_on_icon_cart()
+        WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located \
+                                                ((By.TAG_NAME, "tbody")))
         table = self.driver.find_element_by_tag_name('tbody')
         rows = table.find_elements_by_tag_name('tr')
         products = {}
         i = 1
-        WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located \
-                                                 ((By.TAG_NAME, "tbody")))
+
         for row in rows:
             name = row.find_element_by_css_selector('td>a>h3').text
             qty = row.find_element_by_css_selector('td>a>label').text
             color = row.find_element_by_css_selector('td>a>label>span').text
             price = row.find_element_by_css_selector('td>p').text
-            for char in price:
-                if char == ',':
-                    price = price.replace(char, '')
-            for char2 in name:
-                if char2 == '.':
-                    name = name.replace(char2, '')
-            products[i] = f'Name= {name} ,Color= {color},Quantity= {int(qty[5:])},Price= {price[1:]}'
+
+            name = name.replace('.', '')
+            price = price.replace(',','')
+            price = price.replace('$','')
+            products[i] = f'Name= {name}, Color= {color}, Quantity= {int(qty[5:])}, Price= {price}'
+            #
             i += 1
         return products
 
     def remove_product_from_cart(self):
         """Remove one product from cart"""
+        self.mouse_on_icon_cart()
         removes = self.driver.find_elements_by_css_selector('.removeProduct')
         removes[0].click()
 
@@ -95,6 +97,7 @@ class Page:
         self.find_check_out().click()
 
     def find_cart_is_empty(self):
+        '''check if cart is empty'''
         self.mouse_on_icon_cart()
         WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located \
                                                  ((By.CSS_SELECTOR, "div.emptyCart")))
