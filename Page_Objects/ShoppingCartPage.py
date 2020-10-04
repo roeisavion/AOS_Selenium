@@ -27,20 +27,26 @@ class ShoppingCartPage(Page):
         self.product_names = self.table.find_elements_by_css_selector(".productName")
         self.products_quantity = self.table.find_elements_by_css_selector('.quantityMobile>label.ng-binding')
         self.products_price = self.table.find_elements_by_css_selector("tbody>tr>td>p")
+
+        for i in range(len(self.product_names)):
+            self.product_names[i]=self.product_names[i].text
+            self.products_quantity[i]=int(self.products_quantity[i].text)
+            self.products_price[i]=float(self.products_price[i].text.replace(',','').replace('$',''))
+
         return self.product_names,self.products_quantity,self.products_price
 
     def cart_print(self):
         '''prints the cart details'''
         self.cart_details()
         for i in range(len(self.product_names)):
-            print(f'product name:{self.product_names[i].text}  quantity:{self.products_quantity[i].text}  price:{self.products_price[i].text}')
+            print(f'product name:{self.product_names[i]}  quantity:{self.products_quantity[i]}  price:{self.products_price[i]}')
 
     def sum_cart_prices(self):
         '''sums up the prices from the cart and returns it'''
         self.cart_details()
         self.sum_prices=0
         for i in range(len(self.product_names)):
-            self.sum_prices += float(self.products_price[i].text.replace(",", '').replace("$", ''))
+            self.sum_prices += self.products_price[i]
 
         self.sum_prices = round(self.sum_prices, 2)
         return self.sum_prices

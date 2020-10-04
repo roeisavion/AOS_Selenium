@@ -23,6 +23,7 @@ class OrderPaymentPage(Page):
         self.driver.find_element_by_id("login_btnundefined").click()
 
     def login(self):
+        '''enters username and password and clicks login'''
         self.enter_login_username("maor90b8989")
         self.enter_login_password("12345aA")
         self.click_login()
@@ -72,22 +73,22 @@ class OrderPaymentPage(Page):
         self.choose_yyyy(yyyy)
 
     def pay_now_master_credit_after_details(self):
-        ''''''
+        '''clicks pay now button if entered / edited new details'''
         #WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.ID, "pay_now_btn_ManualPayment")))
         self.driver.find_element_by_id("pay_now_btn_ManualPayment").click()
 
     def pay_now_master_credit_with_saved_details(self):
-        ''''''
+        '''clicks pay now button if using saved details'''
         self.driver.find_element_by_id("pay_now_btn_MasterCredit").click()
 
     def edit_master_credit_details(self):
         self.driver.find_element_by_css_selector('label[translate="Edit"]').click()
 
     def check_thank_you(self):
-        ''''''
+        '''check if the "thank you" text is presented in the page after paying successfully'''
         WebDriverWait(self.driver, 10).until(EC.text_to_be_present_in_element((By.CSS_SELECTOR,"span[translate='Thank_you_for_buying_with_Advantage']"),'Thank you for buying with Advantage'))
         return self.driver.find_element_by_css_selector("span[translate='Thank_you_for_buying_with_Advantage']").text
 
     def get_order_number(self):
-        ''''''
+        ''' returns the order number fron "thank you" page'''
         return self.driver.find_element_by_id("orderNumberLabel").text

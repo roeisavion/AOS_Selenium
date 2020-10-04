@@ -75,7 +75,7 @@ class ProductPage(Page):
         """saves the name, quantity and price of a product from the product page in lists"""
         name = self.get_name()
         self.productNames.insert(0,name)
-        quantity = self.get_quantity()
+        quantity = int(self.get_quantity())
         self.productQuantities.insert(0,quantity)
-        price = self.get_price()
+        price = float(self.get_price())
         self.productPrices.insert(0, price)

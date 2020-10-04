@@ -86,14 +86,12 @@ class TestQA(TestCase):
 
         '''checks details on shopping cart page match details from the ordered product page'''
         for i in range(len(self.productPage.productNames)) :
-            self.assertEqual(self.productPage.productNames[i],self.shopping_cart_page.product_names[i].text)
-            self.assertEqual(self.productPage.productQuantities[i],self.shopping_cart_page.products_quantity[i].text)
-
-            self.shopping_cart_page.products_price[i]=self.shopping_cart_page.products_price[i].text.replace(',','').replace('$','')
+            self.assertEqual(self.productPage.productNames[i],self.shopping_cart_page.product_names[i])
+            self.assertEqual(self.productPage.productQuantities[i],self.shopping_cart_page.products_quantity[i])
 
             '''check if total price from product page = total price from shopping cart page'''
-            productPage_price = float(self.productPage.productPrices[i]) * int(self.productPage.productQuantities[i])
-            self.assertEqual(productPage_price,float(self.shopping_cart_page.products_price[i]))
+            productPage_total_price = self.productPage.productPrices[i] * self.productPage.productQuantities[i]
+            self.assertEqual(productPage_total_price,self.shopping_cart_page.products_price[i])
 
         '''checks is the checkout price equals the sum of the prices(from the shopping cart page) in the cart'''
         self.assertEqual(self.shopping_cart_page.sum_cart_prices(), self.shopping_cart_page.get_checkout_price())
@@ -202,7 +200,7 @@ class TestQA(TestCase):
         self.order_payment.click_next()
         self.order_payment.choose_master_credit()
 
-        '''rgeesrg'''
+        '''if there are saved credit card details, it will use them, if not, it will enter new ones'''
         try:
             self.order_payment.enter_credit_card_number('4886567890123456')
             self.order_payment.enter_cvv_number('7744')
