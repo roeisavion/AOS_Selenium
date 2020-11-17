@@ -147,6 +147,7 @@ class TestQA(TestCase):
         self.product.back_to_main_page()
 
     def test_navigate_back(self):  # Ex 7
+        """This test will check if navigate to tablets category page"""
         """Add tablet to Cart"""
         self.AOS.click_category("Tablets")
         self.category.click_product(number_in_page=3)
